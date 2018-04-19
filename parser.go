@@ -7,7 +7,7 @@ import (
 
 // configurable is interface implemented by BaseConfig
 type configurable interface {
-	SetConfigFunc(func(string) error)
+	setConfigFunc(func(string) error)
 }
 
 // BaseConfig should be embed into your configuration struct
@@ -18,11 +18,11 @@ type BaseConfig struct {
 	} `group:"global"`
 }
 
-func (b *BaseConfig) SetConfigFunc(f func(s string) error) {
+func (b *BaseConfig) setConfigFunc(f func(s string) error) {
 	b.Config = f
 }
 
-// ParseConfig parses configuration file provided in --config flag
+// Parse parses configuration file provided in --config flag
 // cfgStruct should be a pointer
 func Parse(cfgStruct interface{}) error {
 	cfg, ok := cfgStruct.(configurable)
@@ -31,7 +31,7 @@ func Parse(cfgStruct interface{}) error {
 	}
 	p := flags.NewParser(cfg, flags.None)
 
-	cfg.SetConfigFunc(func(s string) error {
+	cfg.setConfigFunc(func(s string) error {
 		ini := flags.NewIniParser(p)
 
 		return ini.ParseFile(s)
