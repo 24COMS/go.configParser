@@ -14,7 +14,7 @@ type configurable interface {
 type BaseConfig struct {
 	Config func(s string) error `long:"config" description:"The ini config file" no-ini:"true"`
 	Global struct {
-		DialogVersion string `long:"global-dialog-version" required:"true" ini-name:"dialog-version"`
+		Version string `long:"global-version" required:"true" ini-name:"version"`
 	} `group:"global"`
 }
 
